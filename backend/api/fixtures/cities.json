@@ -1,0 +1,6 @@
+[
+  {"model": "api.city", "pk": 1, "fields": {"name": "Bogota", "active": true}},  
+  {"model": "api.city", "pk": 2, "fields": {"name": "Cali", "active": true}},
+  {"model": "api.city", "pk": 3, "fields": {"name": "Manizales", "active": true}},
+  {"model": "api.city", "pk": 4, "fields": {"name": "Medellin", "active": true}}
+]
