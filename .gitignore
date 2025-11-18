@@ -1,0 +1,29 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.env
+env/
+venv/
+.venv/
+*.sqlite3
+
+# Node / frontend
+node_modules/
+dist/
+.vite/
+.env.local
+.env.*
+
+# Docker
+docker-compose.override.yml
+**/Dockerfile.*
+
+# VSCode
+.vscode/
+
+# mac / system
+.DS_Store
+
+# logs
+*.log
