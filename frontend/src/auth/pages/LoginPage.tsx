@@ -9,7 +9,7 @@ export const LoginPage = () => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
-    setErrors({ ...errors, [e.target.name]: "" }); // limpia error al escribir
+    setErrors({ ...errors, [e.target.name]: "" }); 
   };
 
   const validate = () => {
