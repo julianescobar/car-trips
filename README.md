@@ -44,6 +44,11 @@ cd car-trips
 ```bash
 cp .env.example .env
 ```
+# Hacer lo mismo en la carpeta frontend
+```bash
+cd frontend
+cp .env.example .env
+```
 
 ## 3. Descargar Archivo backup de base de datos
 - Copiar el archivo `backup.sql` y pegarlo en la carpeta `infra/` del proyecto.  
