@@ -4,8 +4,8 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.views import TokenObtainPairView
 
-from .models import Car, Trip
-from .serializers import CarSerializer, TripSerializer
+from .models import Car, Trip, City
+from .serializers import CarSerializer, TripSerializer, CitySerializer
 
 # Login 
 class LoginView(TokenObtainPairView):
@@ -31,3 +31,10 @@ class TripListCreateView(generics.ListCreateAPIView):
         if plate:
             return Trip.objects.filter(car__plate=plate)
         return Trip.objects.all()
+
+# Cities
+class CityListView(generics.ListAPIView):
+    queryset = City.objects.all()
+    serializer_class = CitySerializer
+    permission_classes = [IsAuthenticated]
+

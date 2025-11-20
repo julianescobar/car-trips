@@ -1,7 +1,6 @@
 from django.db import models
 
-class Car(models.Model):
-    # Vehículo con placa, color y fecha de ingreso
+class Car(models.Model):    
     plate = models.CharField(max_length=10, unique=True)
     color = models.CharField(max_length=20)
     entry_date = models.DateField()
@@ -10,8 +9,7 @@ class Car(models.Model):
         return self.plate
 
 
-class City(models.Model):
-    # Ciudad disponible en el sistema
+class City(models.Model):  
     name = models.CharField(max_length=50, unique=True)
     active = models.BooleanField(default=True)
 
@@ -19,8 +17,7 @@ class City(models.Model):
         return self.name
 
 
-class Trip(models.Model):
-    # Viaje de un coche de una ciudad a otra
+class Trip(models.Model):    
     car = models.ForeignKey(Car, on_delete=models.CASCADE, related_name="trips")
     origin_city = models.ForeignKey(City, on_delete=models.CASCADE, related_name="origin_trips")
     destination_city = models.ForeignKey(City, on_delete=models.CASCADE, related_name="destination_trips")
