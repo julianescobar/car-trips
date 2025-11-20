@@ -51,7 +51,7 @@ export const LoginPage = () => {
 
   return (
     <div className="form-login">
-      <h1>Laogin</h1>
+      <h1>Login</h1>
       <form onSubmit={handleSubmit} className="form">
         <div className="form-group">
           <label htmlFor="username">Usuario</label>
