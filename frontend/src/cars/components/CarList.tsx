@@ -1,4 +1,4 @@
-import { Car } from "../types/cars";
+import type { Car } from "../types/cars";
 
 interface Props {
   cars: Car[];

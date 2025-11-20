@@ -1,6 +1,5 @@
-// src/trips/services/tripsApi.ts
 import { api } from "../../api/axios";
-import { Trip, CreateTrip } from "../types/trips";
+import type { Trip, CreateTrip } from "../types/trips";
 
 export const getTrips = async (placa?: string): Promise<Trip[]> => {
   const url = placa ? `/viajes/?placa=${placa}` : "/viajes/";

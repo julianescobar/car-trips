@@ -1,7 +1,6 @@
-// src/trips/components/TripForm.tsx
 import { cities } from "../../utils/cities";
-import { Car } from "../../cars/types/cars";
-import { CreateTrip } from "../types/trips";
+import type { Car } from "../../cars/types/cars";
+import type{ CreateTrip } from "../types/trips";
 
 interface Props {
   cars: Car[];

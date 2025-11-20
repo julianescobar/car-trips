@@ -1,4 +1,4 @@
-import { CreateCar } from "../types/cars";
+import type { CreateCar } from "../types/cars";
 
 interface Props {
   form: CreateCar;

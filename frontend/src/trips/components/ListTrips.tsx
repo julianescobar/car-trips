@@ -1,4 +1,4 @@
-import { Trip } from "../types/trips";
+import type { Trip } from "../types/trips";
 import { cities } from "../../utils/cities";
 
 interface Props {

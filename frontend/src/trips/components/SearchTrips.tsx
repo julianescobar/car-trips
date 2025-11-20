@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { getTrips } from "../services/tripApi";
-import { Trip } from "../types/trips";
+import type { Trip } from "../types/trips";
 import { ListTrips } from "./ListTrips";
 
 export const SearchTrips = () => {
