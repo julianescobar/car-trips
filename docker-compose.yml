@@ -1,3 +1,5 @@
+version: '3.8'
+
 services:
   # --------------------
   # BASE DE DATOS
@@ -15,6 +17,7 @@ services:
       - "3306:3306"
     volumes:
       - dbdata:/var/lib/mysql
+      - ./infra/backup.sql:/docker-entrypoint-initdb.d/backup.sql 
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       interval: 5s
@@ -31,7 +34,7 @@ services:
     env_file:
       - .env
     volumes:
-      - ./backend:/app             
+      - ./backend:/app
       - backend-deps:/home/appuser/.local/lib/python3.12/site-packages
     ports:
       - "${BACKEND_PORT}:8000"
@@ -43,7 +46,7 @@ services:
              gunicorn core.wsgi:application --bind 0.0.0.0:8000 --workers 3 --log-level info"
 
   # --------------------
-  # FRONTEND REACT
+  # FRONTEND REACT (Node)
   # --------------------
   frontend:
     build:
@@ -51,11 +54,8 @@ services:
       dockerfile: ./infra/Dockerfile.frontend
     env_file:
       - .env
-    volumes:
-      - ./frontend:/app
-      - frontend-node-modules:/app/node_modules
     ports:
-      - "${FRONTEND_PORT}:5173"
+      - "${FRONTEND_PORT}:3000"   # Node sirve en 3000 según Dockerfile
     depends_on:
       - backend
 
@@ -65,4 +65,3 @@ services:
 volumes:
   dbdata:
   backend-deps:
-  frontend-node-modules:

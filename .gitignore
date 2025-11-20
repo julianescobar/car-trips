@@ -17,7 +17,6 @@ dist/
 
 # Docker
 docker-compose.override.yml
-**/Dockerfile.*
 
 # VSCode
 .vscode/
