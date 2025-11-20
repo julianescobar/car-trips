@@ -12,9 +12,13 @@ class CitySerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class TripSerializer(serializers.ModelSerializer):
+    car_plate = serializers.SerializerMethodField()
     class Meta:
         model = Trip
         fields = '__all__'
+
+    def get_car_plate(self, obj):
+        return obj.car.plate
 
     def validate_hours(self, value):
         if value <= 0:

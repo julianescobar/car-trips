@@ -27,7 +27,7 @@ class TripListCreateView(generics.ListCreateAPIView):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        plate = self.request.query_params.get('plate')
+        plate = self.request.query_params.get('placa')
         if plate:
             return Trip.objects.filter(car__plate=plate)
         return Trip.objects.all()
