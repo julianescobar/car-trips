@@ -1,16 +1,40 @@
+import { useEffect, useState } from "react";
 import type { Trip } from "../types/trips";
-import { cities } from "../../utils/cities";
+import { getCities } from "../services/citiesApi";
+import type { City } from "../types/cities"
 
 interface Props {
   trips: Trip[];
 }
 
 export const ListTrips = ({ trips }: Props) => {
+  const [cities, setCities] = useState<City[]>([]);
+  const [loadingCities, setLoadingCities] = useState(true);
+
+  useEffect(() => {
+    const fetchCities = async () => {
+      try {
+        const data = await getCities();
+        setCities(data);
+      } catch (error) {
+        console.error("Error cargando ciudades:", error);
+      } finally {
+        setLoadingCities(false);
+      }
+    };
+
+    fetchCities();
+  }, []);
+
+  if (loadingCities) {
+    return <p>Cargando ciudades...</p>;
+  }
+
   return (
     <div className="list">
       {trips.map((t) => {
-        const origin = cities.find((c) => c.pk === t.origin_city)?.name;
-        const dest = cities.find((c) => c.pk === t.destination_city)?.name;
+        const origin = cities.find((c) => c.id === t.origin_city)?.name;
+        const dest = cities.find((c) => c.id === t.destination_city)?.name;
 
         return (
           <div key={t.id} className="list-item">
