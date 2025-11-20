@@ -21,7 +21,7 @@ export const CarsPage = () => {
     entry_date: "",
   });
 
-  const colors = ["Red", "Blue", "Green", "Black", "White", "Gray"];
+  const colors = ["Rojo", "Azul", "Verde", "Negro", "Blanco", "Gris"];
 
   const fetchCars = async () => {
     try {

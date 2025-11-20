@@ -1,6 +1,8 @@
-import { cities } from "../../utils/cities";
+import { useEffect, useState } from "react";
 import type { Car } from "../../cars/types/cars";
-import type{ CreateTrip } from "../types/trips";
+import type { CreateTrip } from "../types/trips";
+import { getCities } from "../services/citiesApi";
+import type { City } from "../types/cities";
 
 interface Props {
   cars: Car[];
@@ -11,6 +13,24 @@ interface Props {
 }
 
 export const FormTrips = ({ cars, form, errors, onChange, onSubmit }: Props) => {
+  const [cities, setCities] = useState<City[]>([]);
+  const [loadingCities, setLoadingCities] = useState(true);
+
+  useEffect(() => {
+    const fetchCities = async () => {
+      try {
+        const data = await getCities(); 
+        setCities(data);
+      } catch (error) {
+        console.error("Error cargando ciudades:", error);
+      } finally {
+        setLoadingCities(false);
+      }
+    };
+
+    fetchCities();
+  }, []);
+
   return (
     <form onSubmit={onSubmit} className="form">
       <div className="form-group">
@@ -42,11 +62,16 @@ export const FormTrips = ({ cars, form, errors, onChange, onSubmit }: Props) => 
           className="form-select"
         >
           <option value={0}>Seleccione ciudad</option>
-          {cities.map((c) => (
-            <option key={c.pk} value={c.pk}>
-              {c.name}
-            </option>
-          ))}
+
+          {loadingCities ? (
+            <option>Cargando...</option>
+          ) : (
+            cities.map((c) => (
+              <option key={c.id} value={c.id}>
+                {c.name}
+              </option>
+            ))
+          )}
         </select>
         {errors.origin_city && <p className="form-error">{errors.origin_city}</p>}
       </div>
@@ -62,11 +87,16 @@ export const FormTrips = ({ cars, form, errors, onChange, onSubmit }: Props) => 
           className="form-select"
         >
           <option value={0}>Seleccione ciudad</option>
-          {cities.map((c) => (
-            <option key={c.pk} value={c.pk}>
-              {c.name}
-            </option>
-          ))}
+
+          {loadingCities ? (
+            <option>Cargando...</option>
+          ) : (
+            cities.map((c) => (
+              <option key={c.id} value={c.id}>
+                {c.name}
+              </option>
+            ))
+          )}
         </select>
         {errors.destination_city && (
           <p className="form-error">{errors.destination_city}</p>
