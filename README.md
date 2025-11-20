@@ -10,7 +10,7 @@
 
 
 ## Estructura 
-
+```bash
 car-trips/
 │
 ├─ backend/ # Código del backend Django
@@ -19,15 +19,16 @@ car-trips/
 ├─ docker-compose.yml # Definiciones para levantar contenedores
 ├─ .env.example # Variables de entorno 
 └─ README.md # Instrucciones de uso, instalación, levantamiento con Docker y estructura del proyecto
+```
 
 ## Prerrequisitos
 
 -Tener Docker y Docker Compose instalados.
-Que los siguientes puertos estén libres (por defecto, pueden cambiarse en .env o docker-compose.yml):
-8000 → Backend Django
-3000 → Frontend React
-3306 → Base de datos MySQL
-Si algún puerto está en uso, puedes modificarlo en .env antes de levantar los contenedores.
+-Que los siguientes puertos estén libres (por defecto, pueden cambiarse en .env o docker-compose.yml):
+-8000 → Backend Django
+-3000 → Frontend React
+-3306 → Base de datos MySQL
+-Si algún puerto está en uso, puedes modificarlo en .env antes de levantar los contenedores.
 
 ## INSTALACIÓN 
 
@@ -64,6 +65,7 @@ cp /ruta/del/backup/backup.sql ./infra/
 ```bash
 docker-compose up -d --build
 ```
+
 -Backend Django: http://localhost:8000
 -Frontend React: http://localhost:3000
 -Base de datos MySQL: puerto 3306
