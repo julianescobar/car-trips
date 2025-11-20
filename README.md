@@ -44,7 +44,7 @@ cd car-trips
 ```bash
 cp .env.example .env
 ```
-# Hacer lo mismo en la carpeta frontend
+### Hacer lo mismo en la carpeta frontend
 ```bash
 cd frontend
 cp .env.example .env
