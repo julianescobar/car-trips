@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { getCars, createCar } from "../services/carsApi";
-import { Car, CreateCar } from "../types/cars";
+import type { Car, CreateCar } from "../types/cars";
 
 import { CarForm } from "../components/CarForm";
 import { CarList } from "../components/CarList";

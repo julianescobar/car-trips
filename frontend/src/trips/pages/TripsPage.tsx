@@ -1,9 +1,8 @@
-// src/trips/pages/TripsPage.tsx
 import { useEffect, useState } from "react";
 import { getTrips, createTrip } from "../services/tripApi";
-import { Trip, CreateTrip } from "../types/trips";
+import type { Trip, CreateTrip } from "../types/trips";
 import { getCars } from "../../cars/services/carsApi";
-import { Car } from "../../cars/types/cars";
+import type { Car } from "../../cars/types/cars";
 
 import { FormTrips } from "../components/FormTrips";
 import { ListTrips } from "../components/ListTrips";

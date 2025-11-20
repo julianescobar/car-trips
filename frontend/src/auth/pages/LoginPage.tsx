@@ -1,7 +1,9 @@
 import { useContext, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 export const LoginPage = () => {
+  
   const { login } = useContext(AuthContext);
   const [form, setForm] = useState({ username: "", password: "" });
   const [errors, setErrors] = useState({ username: "", password: "" });
@@ -11,6 +13,7 @@ export const LoginPage = () => {
     setForm({ ...form, [e.target.name]: e.target.value });
     setErrors({ ...errors, [e.target.name]: "" }); 
   };
+  const navigate = useNavigate();
 
   const validate = () => {
     const tempErrors = { username: "", password: "" };
@@ -30,22 +33,25 @@ export const LoginPage = () => {
     return valid;
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!validate()) return;
-
-    try {
-      setSubmitError("");
-      await login(form);
-      window.location.href = "/cars";
-    } catch (err) {
-      setSubmitError("Credenciales incorrectas");
-    }
-  };
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  e.preventDefault();
+  if (!validate()) return;
+  
+  const success = await login(form);  
+  
+  if (success) {
+    setSubmitError(""); 
+    navigate("/cars"); // sin reload
+  } else {
+    setSubmitError("Usuario o contraseña incorrecta");
+    setSubmitError("Error al iniciar sesión");
+  }
+ 
+};
 
   return (
     <div className="form-login">
-      <h1>Login</h1>
+      <h1>Laogin</h1>
       <form onSubmit={handleSubmit} className="form">
         <div className="form-group">
           <label htmlFor="username">Usuario</label>
@@ -77,7 +83,7 @@ export const LoginPage = () => {
         <button type="submit" className="form-button">Ingresar</button>
       </form>
 
-      {submitError && <p className="form-error">{submitError}</p>}
+      {submitError && <p className="form-error center">{submitError}</p>}
     </div>
   );
 };
