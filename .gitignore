@@ -15,9 +15,11 @@ dist/
 .env.local
 .env.*
 
+# Exceptuar ENV EXAMPLE
+!.env.example
+
 # Docker
 docker-compose.override.yml
-**/Dockerfile.*
 
 # VSCode
 .vscode/

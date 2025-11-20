@@ -1,0 +1,30 @@
+FROM python:3.12
+
+# Crear usuario no-root
+RUN useradd -m appuser
+
+# Instalar dependencias del sistema
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    default-libmysqlclient-dev \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+RUN chown -R appuser:appuser /app
+
+USER appuser
+ENV PATH="/home/appuser/.local/bin:$PATH"
+
+# Copiar solo requirements primero (para aprovechar cache de Docker)
+COPY --chown=appuser:appuser backend/requirements.txt /app/requirements.txt
+
+# Instalar dependencias **globalmente**, para que persistan aunque haya bind mount
+RUN pip install --no-cache-dir --upgrade pip
+RUN pip install --no-cache-dir -r requirements.txt gunicorn
+
+# Copiar código (bind mount en dev sobreescribirá /app)
+COPY --chown=appuser:appuser backend/ /app/
+
+# Comando por defecto (se puede sobreescribir en docker-compose)
+CMD ["gunicorn", "core.wsgi:application", "--bind", "0.0.0.0:8000", "--workers", "3", "--log-level", "info"]

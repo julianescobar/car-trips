@@ -1,4 +1,32 @@
+version: '3.8'
+
 services:
+  # --------------------
+  # BASE DE DATOS
+  # --------------------
+  db:
+    image: mysql:8
+    env_file:
+      - .env
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}  
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "3306:3306"
+    volumes:
+      - dbdata:/var/lib/mysql
+      - ./infra/backup.sql:/docker-entrypoint-initdb.d/backup.sql 
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # --------------------
+  # BACKEND DJANGO
+  # --------------------
   backend:
     build:
       context: .
@@ -7,30 +35,33 @@ services:
       - .env
     volumes:
       - ./backend:/app
+      - backend-deps:/home/appuser/.local/lib/python3.12/site-packages
     ports:
       - "${BACKEND_PORT}:8000"
     depends_on:
       db:
         condition: service_healthy
+    command: >
+      sh -c "pip install --no-cache-dir -r requirements.txt &&
+             gunicorn core.wsgi:application --bind 0.0.0.0:8000 --workers 3 --log-level info"
 
-  db:
-    image: mysql:8
+  # --------------------
+  # FRONTEND REACT (Node)
+  # --------------------
+  frontend:
+    build:
+      context: .
+      dockerfile: ./infra/Dockerfile.frontend
     env_file:
       - .env
-    environment:
-        MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}  
-        MYSQL_DATABASE: ${DB_DATABASE}
-        MYSQL_USER: ${DB_USERNAME}
-        MYSQL_PASSWORD: ${DB_PASSWORD}
     ports:
-      - "3306:3306"
-    volumes:
-      - dbdata:/var/lib/mysql
-    healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
-      interval: 5s
-      timeout: 5s
-      retries: 5
+      - "${FRONTEND_PORT}:3000"   # Node sirve en 3000 según Dockerfile
+    depends_on:
+      - backend
 
+# --------------------
+# VOLUMES
+# --------------------
 volumes:
   dbdata:
+  backend-deps:
